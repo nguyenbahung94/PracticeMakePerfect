@@ -1,4 +1,4 @@
-package data_structures
+package data_structures_algorithm
 
 import java.util.Collections
 import java.util.PriorityQueue
