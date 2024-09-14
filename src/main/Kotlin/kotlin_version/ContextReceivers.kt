@@ -92,7 +92,7 @@ class ApplicationConfig(
 
 context(ApplicationConfig)
 class ApplicationControl(
-    val applicationName: String = this@ApplicationConfig.name
+    val applicationName: String
 ) {
     fun start() {
         print("Using control: ")
@@ -102,7 +102,7 @@ class ApplicationControl(
 
 fun main4() {
     with(ApplicationConfig("AppName")) {
-        val control = ApplicationControl()
+        val control = ApplicationControl(name)
         println(control.applicationName) // AppName
         control.start() // Using control: Start application
     }
