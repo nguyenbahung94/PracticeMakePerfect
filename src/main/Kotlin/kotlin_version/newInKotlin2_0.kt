@@ -33,6 +33,7 @@ fun main() {
 ////////////////////////////////
 // more notes
 /*
+Kotlin 2.0 Explicit Backing Fields (field)
 before Kotlin 2.0.0
 * class MyViewModel {
     private val _title = MutableStateFlow<String>("Placeholder")
@@ -43,7 +44,11 @@ class MyViewModel {
     val title: StateFlow<String>
         field = MutableStateFlow<String>("Placeholder")
 }
-
+var count: Int = 0
+    get() = field // Access the backing field using 'field'
+    set(value) {
+        field = value // Modify the backing field using 'field'
+    }
 ///////////////////////////
 Combination Of Operators And Numeric Conversions
 fun foo(longs: MutableList<Long>) {
@@ -119,6 +124,18 @@ fun SearchResultItem(searchResult: SearchResult) {
         ...
     }
 }
+// Guarded Conditions (if inside when) : introduced in Kotlin 2.1 Beta
+
+fun guardedConditions() {
+    val numbers = listOf(2, 5, 8, 12, 15)
+
+    for (x in numbers) {
+        when (x) {
+            in 1..10 if x % 2 == 0 -> println("$x is an even number between 1 and 10")
+            else -> println("$x is not an even number between 1 and 10")
+        }
+    }
+}
 When guards are coming as beta in Kotlin 2.1.0
 
 ///////////////////////////
@@ -130,6 +147,27 @@ fun SearchResultItem(searchResult: SearchResult) {
         is Post -> { /* ... */ }
         is Place -> { /* ... */ }
     }
+}
+
+// #3. Context-Sensitive Resolution for Sealed Classes and Enums
+sealed class Result {
+    object Success : Result()
+    data class Error(val message: String) : Result()
+}
+
+fun handleResult(result: Result) {
+    when (result) {
+        is Success -> println("Success!") // No need to specify Result.Success in Kotlin 2.1+
+        is Error -> println("Error: ${result.message}") // Accessing data class property
+    }
+}
+
+fun main() {
+    val successResult = Result.Success
+    val errorResult = Result.Error("Something went wrong")
+
+    handleResult(successResult)
+    handleResult(errorResult)
 }
 ///////////////////////////
 Name-Based Destructuring
@@ -153,6 +191,28 @@ fun LazyColumn(
 )
 no need to pass each parameter just group it in one dataarg class
 Extensible data arguments are coming in Kotlin 2.2 as an experimental feature.
+more example
+// #1. Extensible Data Arguments (data objects)
+// Before (lots of parameters)
+fun myFunction(param1: Int = 0, param2: String = "", param3: Boolean = false) {
+    // ...
+}
+
+// After (using data object)
+data object MyFunctionOptions {
+    var param1: Int = 0
+    var param2: String = ""
+    var param3: Boolean = false
+}
+
+fun myFunction(options: MyFunctionOptions = MyFunctionOptions) {
+    // Access options.param1, options.param2, etc.
+}
+
+fun MyCallerFunction(){
+    // Calling the function
+    myFunction(param1 = 10, param3 = true) // No need to create MyFunctionOptions object
+}
 ///////////////////////////
 Union Types for Errors
 private error object NotFound
