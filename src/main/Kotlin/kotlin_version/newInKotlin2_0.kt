@@ -25,9 +25,30 @@ fun petAnimal(animal: Any) {
 }
 fun main() {
     //Smart cast improvements
-    val kitty = Cat()
-    petAnimal(kitty)
+   // val kitty = Cat()
+   // petAnimal(kitty)
+    ////////////////////////////////////////////////////////////////
+    convertUnit()
 }
+
+fun convertUnit() {
+    // Define conversion factors
+    val kilometerToMeter = 1000.0
+    val meterToAstronomicalUnit = 1.495978707e11
+
+    // 1 kilometer in meters
+    val km = 1.0
+    val meters = km * kilometerToMeter
+
+    // Convert meters to Astronomical Units (AU)
+    val astronomicalUnits = meters / meterToAstronomicalUnit
+
+    // Print the result
+    println("$km kilometer is equal to $astronomicalUnits AU")
+    println("1 kilometer ≈ ${"%.10f".format(astronomicalUnits)} AU")
+    //test result
+}
+
 
 
 ////////////////////////////////
